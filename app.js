@@ -748,7 +748,7 @@ function initGreedyAnneal() {
 
   document.getElementById("anneal-btn").addEventListener("click", () => {
     if (!lastGreedy || lastGreedy.tickets.length === 0) {
-      toast("Construie&#537;te mai intai o schem&#259;");
+      toast("Construiește mai întâi o schemă");
       return;
     }
     annealInfo.innerHTML = '<div class="empty">Se optimizeaz&#259;...</div>';
@@ -862,7 +862,7 @@ function initBacktracking() {
       if (constraints.primeCount !== null) parts.push(`${constraints.primeCount} prime`);
       if (include.length) parts.push(`include ${include.join(",")}`);
       if (exclude.length) parts.push(`exclude ${exclude.length} nr.`);
-      const desc = parts.length ? parts.join(" &middot; ") : "fara constrangeri";
+      const desc = parts.length ? parts.join(" &middot; ") : "fără constrângeri";
 
       info.innerHTML =
         `<div class="card an-inline"><span class="badge badge-ok">${r.solutions.length} solu&#539;ii</span>
