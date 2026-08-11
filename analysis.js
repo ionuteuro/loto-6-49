@@ -436,7 +436,7 @@ function luckyGenerate(draws, rng) {
   }
 
   const targetOE = pp && pp.mostCommonOE ? pp.mostCommonOE.key : null;
-  if (sum) reasons.push(`Sumă î intervalul tipic ${sum.range68[0]}–${sum.range68[1]}`);
+  if (sum) reasons.push(`Sumă în intervalul tipic ${sum.range68[0]}–${sum.range68[1]}`);
   if (targetOE) reasons.push(`Raport par/impar frecvent (${targetOE})`);
 
   let combo = null;
