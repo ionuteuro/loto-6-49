@@ -881,7 +881,7 @@ function initBacktracking() {
 /* ============================================================
    LIVE RESULTS (Loto 6/49 via loto.ro)
    ============================================================ */
-const LOTO_API_URL = "/api/loto649";
+const LOTO_API_URL = "https://raw.githubusercontent.com/ionuteuro/loto-6-49/main/results.json";
 const LOTO_SOURCE_URL =
   "https://www.loto.ro/loto-new/newLotoSiteNexioFinalVersion/web/app2.php/jocuri/649_si_noroc/rezultate_extragere.html";
 const LOTO_REFRESH_MS = 10 * 60 * 1000; // auto-refresh every 10 min
