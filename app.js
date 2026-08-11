@@ -233,6 +233,7 @@ for (let n = 1; n <= 49; n++) {
 }
 
 function toggleSchemeNumber(n, cell) {
+  if (!currentScheme) loadScheme(schemeSelect.value);
   const idx = schemeSelection.indexOf(n);
   if (idx >= 0) {
     schemeSelection.splice(idx, 1);
@@ -280,6 +281,10 @@ function loadScheme(id) {
 }
 
 schemeSelect.addEventListener("change", () => loadScheme(schemeSelect.value));
+// Initializam schema selectata implicit (altfel currentScheme ramane null
+// pana se schimba dropdown-ul — pe mobil, selectarea unei optiuni deja
+// preselectate nu declanseaza intotdeauna "change" si tab-ul pare blocat).
+loadScheme(schemeSelect.value);
 
 document.getElementById("scheme-random").addEventListener("click", () => {
   const pool = Array.from({ length: 49 }, (_, i) => i + 1);
