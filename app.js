@@ -30,7 +30,7 @@ function randomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
-// Genereaza o varianta 6/49 (6 numere unice, sortate)
+// Generează o variantă 6/49 (6 numere unice, sortate)
 function drawSix() {
   const pool = Array.from({ length: 49 }, (_, i) => i + 1);
   return secureShuffle(pool).slice(0, 6).sort((a, b) => a - b);
@@ -99,7 +99,7 @@ document.getElementById("gen-btn").addEventListener("click", () => {
 
 function renderGenResults(tickets) {
   if (!tickets.length) {
-    genResults.innerHTML = '<p class="empty">Nicio variant&#259; generat&#259;.</p>';
+    genResults.innerHTML = '<p class="empty">Nicio variantă generată.</p>';
     return;
   }
   genResults.innerHTML = tickets
@@ -152,18 +152,18 @@ document.getElementById("lucky-btn").addEventListener("click", () => {
   const reasonsHtml = first.reasons.map((r) => `<li>${r}</li>`).join("");
   const noteHtml = first.usedHistory
     ? ""
-    : '<p class="lucky-note">Fara istoric incarcat: se folosesc doar filtre de baza. Incarca extrageri in tab-ul Analiza pentru mai multe filtre.</p>';
+    : '<p class="lucky-note">Fără istoric încărcat: se folosesc doar filtre de bază. Încarcă extragerile în tab-ul Analiză pentru mai multe filtre.</p>';
 
   // cate o "varianta" pe rand
   const combosHtml = results
     .map((res, i) => {
       const st = res.stats;
-      const label = results.length > 1 ? `Varianta ${i + 1}` : "Varianta ta norocoas&#259;";
+      const label = results.length > 1 ? `Varianta ${i + 1}` : "Varianta ta norocoasă";
       return `<div class="lucky-item">
-          <div class="lucky-item-head">&#127808; ${label}</div>
+          <div class="lucky-item-head">🎰 ${label}</div>
           ${ballsHtml(res.combo)}
           <div class="lucky-stats">
-            <span>Sum&#259; <b>${st.sum}</b></span>
+            <span>Sumă <b>${st.sum}</b></span>
             <span>Par/impar <b>${st.odd}-${st.even}</b></span>
             <span>Prime <b>${st.primes}</b></span>
           </div>
@@ -174,10 +174,10 @@ document.getElementById("lucky-btn").addEventListener("click", () => {
   genResults.innerHTML =
     `<div class="lucky-card">
        ${combosHtml}
-       <p class="lucky-sub">Algoritmi combina&#539;i:</p>
+       <p class="lucky-sub">Algoritmi combinați:</p>
        <ul class="lucky-reasons">${reasonsHtml}</ul>
        ${noteHtml}
-       <p class="lucky-disclaimer">Doar divertisment &mdash; nu cre&#537;te &#537;ansa de c&#226;&#537;tig.</p>
+       <p class="lucky-disclaimer">Doar divertisment — nu crește șansa de câștig.</p>
      </div>`;
 });
 
@@ -222,7 +222,7 @@ LOTO_SCHEMES.forEach((s) => {
   schemeSelect.appendChild(opt);
 });
 
-// Construieste grila 1..49
+// Construiește grila 1..49
 for (let n = 1; n <= 49; n++) {
   const cell = document.createElement("div");
   cell.className = "num-cell";
@@ -272,9 +272,9 @@ function loadScheme(id) {
   schemePickHint.textContent = `Alege exact ${currentScheme.picks} numere din 49:`;
   const blockCount = getSchemeBlocks(currentScheme).length;
   schemeInfo.innerHTML =
-    `<p><b>Garantie:</b> ${currentScheme.guarantee}</p>` +
+    `<p><b>Garanție:</b> ${currentScheme.guarantee}</p>` +
     `<p><b>Detalii:</b> ${currentScheme.detail}</p>` +
-    `<p><b>Numere de ales:</b> ${currentScheme.picks} &middot; <b>Bilete generate:</b> ${blockCount}</p>`;
+    `<p><b>Numere de ales:</b> ${currentScheme.picks} · <b>Bilete generate:</b> ${blockCount}</p>`;
   schemeResults.innerHTML = "";
   updateSchemeStatus();
 }
@@ -386,7 +386,7 @@ function buildProbTable() {
       )
       .join("") +
     `<li class="prob-row prob-total">
-       <div class="prob-main"><span class="prob-name">Total combina&#539;ii</span></div>
+       <div class="prob-main"><span class="prob-name">Total combinații</span></div>
        <div class="prob-vals"><span class="prob-odds">${fmt(total)}</span></div>
      </li>` +
     "</ul>";
@@ -448,7 +448,7 @@ const analysisEmpty = document.getElementById("analysis-empty-hint");
 function updateHistStatus() {
   if (!histStatus) return;
   if (history.length === 0) {
-    histStatus.innerHTML = '<span class="badge badge-warn">Fara date</span> Importa extrageri sau incarca setul demo.';
+    histStatus.innerHTML = '<span class="badge badge-warn">Fără date</span> Importă extragerile sau încarcă setul demo.';
   } else {
     histStatus.innerHTML = `<span class="badge badge-ok">${history.length} extrageri</span> disponibile pentru analiza.`;
   }
@@ -459,7 +459,7 @@ function refreshAnalysisVisibility() {
   if (analysisEmpty) {
     analysisEmpty.style.display = has ? "none" : "block";
     if (!has) analysisEmpty.innerHTML =
-      '<div class="empty">Nicio extragere &icirc;nc&#259;rcat&#259;. Import&#259; date sau folose&#537;te setul demo pentru a vedea analizele.</div>';
+      '<div class="empty">Nicio extragere încărcată. Importă date sau folosește setul demo pentru a vedea analizele.</div>';
   }
   if (analysisOutput) analysisOutput.style.display = has ? "block" : "none";
 }
@@ -487,8 +487,8 @@ function runAllAnalyses() {
 
   // --- Frecventa ---
   html += analysisBlock(
-    "Frecventa numerelor",
-    "Cele mai des si cele mai rar extrase numere din istoric.",
+    "Frecvența numerelor",
+    "Cele mai des și mai rar extrase numere din istoric.",
     `<p class="an-sub">Calde (frecvente)</p>${miniBalls(freq.hot.map((x) => x.n))}
      <p class="an-sub">Reci (rare)</p>${miniBalls(freq.cold.map((x) => x.n))}`
   );
@@ -509,13 +509,13 @@ function runAllAnalyses() {
     for (const c of km.clusters) {
       clHtml += `<div class="cluster">
         <div class="cluster-head"><span class="an-sub">${c.label}</span>
-        <span class="an-meta">${c.numbers.length} nr &middot; frecv. medie ${c.avgFreq.toFixed(1)}</span></div>
+        <span class="an-meta">${c.numbers.length} nr · frecv. medie ${c.avgFreq.toFixed(1)}</span></div>
         ${miniBalls(c.numbers)}
       </div>`;
     }
     html += analysisBlock(
       "Clustering K-Means",
-      "Grupeaza numerele dupa frecventa si recenta in 3 grupuri.",
+      "Grupează numerele după frecvență și recenta în 3 grupuri.",
       clHtml
     );
   }
@@ -534,14 +534,14 @@ function runAllAnalyses() {
       )
       .join("");
     html += analysisBlock(
-      "Filtru de suma (distributia normala)",
+      "Filtru de sumă (distribuția normală)",
       "Suma celor 6 numere tinde spre o distributie normala.",
       `<div class="stat-grid">
          <div><span class="stat-num">${sum.mean.toFixed(0)}</span><span class="stat-lbl">medie</span></div>
          <div><span class="stat-num">${sum.std.toFixed(0)}</span><span class="stat-lbl">abatere</span></div>
          <div><span class="stat-num">${sum.range68[0]}-${sum.range68[1]}</span><span class="stat-lbl">interval tipic</span></div>
        </div>
-       <p class="an-sub">Distributia sumelor</p>
+       <p class="an-sub">Distribuția sumelor</p>
        <div class="bars">${barsHtml}</div>`
     );
   }
@@ -557,14 +557,14 @@ function runAllAnalyses() {
       .join("");
     html += analysisBlock(
       "Raport par/impar & numere prime",
-      "Tiparele de paritate si numarul de prime din extrageri.",
+      "Tiparele de paritate și numărul de prime din extrageri.",
       `<div class="stat-grid">
          <div><span class="stat-num">${pp.oddRatio.toFixed(0)}%</span><span class="stat-lbl">impare</span></div>
          <div><span class="stat-num">${pp.evenRatio.toFixed(0)}%</span><span class="stat-lbl">pare</span></div>
          <div><span class="stat-num">${pp.avgPrimes.toFixed(1)}</span><span class="stat-lbl">prime/extragere</span></div>
        </div>
        <p class="an-sub">Tipare impar-par frecvente</p>${oeHtml}
-       <p class="an-sub">Distributia numerelor prime</p>${primeHtml}`
+       <p class="an-sub">Distribuția numerelor prime</p>${primeHtml}`
     );
   }
 
@@ -582,7 +582,7 @@ function analysisBlock(title, desc, body) {
 // ---- Generator ghidat ----
 function renderGuided() {
   const out = document.getElementById("guided-results");
-  if (history.length === 0) { toast("Importa mai intai extrageri"); return; }
+  if (history.length === 0) { toast("Importă mai întâi extragerile"); return; }
   const useSum = document.getElementById("guided-sum").checked;
   const useParity = document.getElementById("guided-parity").checked;
   const useMarkov = document.getElementById("guided-markov").checked;
@@ -607,7 +607,7 @@ function initAnalysisTab() {
     importBtn.addEventListener("click", () => {
       const parsed = parseDrawsText(histImportText.value);
       if (parsed.length === 0) {
-        toast("Nu am gasit extrageri valide");
+        toast("Nu am găsit extrageri valide");
         return;
       }
       history = parsed;
@@ -626,7 +626,7 @@ function initAnalysisTab() {
       const reader = new FileReader();
       reader.onload = () => {
         histImportText.value = reader.result;
-        toast("Fisier incarcat - apasa Importa");
+        toast("Fișier încărcat - apăsați Importa");
       };
       reader.readAsText(file);
     });
@@ -639,7 +639,7 @@ function initAnalysisTab() {
       saveHistory();
       updateHistStatus();
       runAllAnalyses();
-      toast("Set demo incarcat (300 extrageri nereale)");
+      toast("Set demo încărcat (300 extrageri nereale)");
     });
   }
 
@@ -652,7 +652,7 @@ function initAnalysisTab() {
       refreshAnalysisVisibility();
       analysisOutput.innerHTML = "";
       document.getElementById("guided-results").innerHTML = "";
-      toast("Istoric sters");
+      toast("Istoric șters");
     });
   }
 
@@ -707,20 +707,20 @@ function initGreedyAnneal() {
     numsInput.value = pool.slice(0, howMany).sort((a, b) => a - b).join(" ");
   });
 
-  const GREEDY_MAX_NUMBERS = 14; // limita ca sa nu blocam UI-ul (combinatorica)
+  const GREEDY_MAX_NUMBERS = 14; // limita ca să nu blocăm UI-ul (combinatorică)
 
   document.getElementById("greedy-build").addEventListener("click", () => {
     const numbers = parseChosenNumbers(numsInput.value);
     let K = parseInt(kSel.value), M = parseInt(mSel.value);
     if (numbers.length < 6) { toast("Alege minim 6 numere"); return; }
     if (numbers.length > GREEDY_MAX_NUMBERS) {
-      toast(`Maxim ${GREEDY_MAX_NUMBERS} numere (altfel dureaza prea mult)`);
+      toast(`Maxim ${GREEDY_MAX_NUMBERS} numere (altfel durează prea mult)`);
       return;
     }
-    if (K > M) { toast("K nu poate fi mai mare ca M"); return; }
-    if (M > numbers.length) { toast("M nu poate depasi numerele alese"); return; }
+    if (K > M) { toast("K nu poate fi mai mare decât M"); return; }
+    if (M > numbers.length) { toast("M nu poate depăși numerele alese"); return; }
 
-    info.innerHTML = '<div class="empty">Se construie&#537;te...</div>';
+    info.innerHTML = '<div class="empty">Se construiește...</div>';
     results.innerHTML = "";
     annealInfo.innerHTML = "";
     annealResults.innerHTML = "";
@@ -735,8 +735,8 @@ function initGreedyAnneal() {
       info.innerHTML =
         `<div class="card an-inline">${badge}
          <strong>${g.tickets.length}</strong> bilete pentru
-         ${numbers.length} numere &middot; garan&#539;ie ${K} din ${M}
-         &middot; ${g.targetsTotal} combina&#539;ii acoperite</div>`;
+         ${numbers.length} numere · garanție ${K} din ${M}
+         · ${g.targetsTotal} combinații acoperite</div>`;
       results.innerHTML =
         `<div class="ticket"><span class="ticket-label">Numere</span>${ballsHtml(numbers)}</div>` +
         `<p class="an-sub">Bilete (${g.tickets.length})</p>` +
@@ -751,7 +751,7 @@ function initGreedyAnneal() {
       toast("Construiește mai întâi o schemă");
       return;
     }
-    annealInfo.innerHTML = '<div class="empty">Se optimizeaz&#259;...</div>';
+    annealInfo.innerHTML = '<div class="empty">Se optimizează...</div>';
     annealResults.innerHTML = "";
 
     setTimeout(() => {
@@ -761,12 +761,12 @@ function initGreedyAnneal() {
       });
       const saved = sa.reducedFrom - sa.reducedTo;
       const badge = sa.guaranteed
-        ? '<span class="badge badge-ok">garantie pastrata</span>'
-        : '<span class="badge badge-warn">verifica</span>';
+        ? '<span class="badge badge-ok">Garanție păstrată</span>'
+        : '<span class="badge badge-warn">verifică</span>';
       annealInfo.innerHTML =
         `<div class="card an-inline">${badge}
-         ${sa.reducedFrom} &rarr; <strong>${sa.reducedTo}</strong> bilete
-         ${saved > 0 ? `(&minus;${saved})` : "(deja optim)"}</div>`;
+         ${sa.reducedFrom} → <strong>${sa.reducedTo}</strong> bilete
+         ${saved > 0 ? `(−${saved})` : "(deja optim)"}</div>`;
       annealResults.innerHTML =
         `<p class="an-sub">Bilete optimizate (${sa.tickets.length})</p>` +
         sa.tickets
@@ -787,7 +787,7 @@ function initBacktracking() {
   // optiuni: "oricat" (null) + 0..6
   const fillSel = (sel) => {
     const any = document.createElement("option");
-    any.value = ""; any.textContent = "oric\u00e2t";
+    any.value = ""; any.textContent = "oricât";
     sel.appendChild(any);
     for (let i = 0; i <= 6; i++) {
       const o = document.createElement("option");
@@ -835,11 +835,11 @@ function initBacktracking() {
     };
 
     if (constraints.sumMin > constraints.sumMax) {
-      toast("Suma min nu poate depasi suma max");
+      toast("Suma min nu poate depăși suma max");
       return;
     }
 
-    info.innerHTML = '<div class="empty">Se caut&#259; solu&#539;ii...</div>';
+    info.innerHTML = '<div class="empty">Se caută soluții...</div>';
     results.innerHTML = "";
 
     setTimeout(() => {
@@ -849,24 +849,24 @@ function initBacktracking() {
       const r = backtrackGenerate(constraints, { limit, shuffle: true, rng });
 
       if (!r.valid) {
-        const reason = (r.reason || "Nicio solu&#539;ie.").replace(/&#\d+;/g, (m) => m);
+        const reason = (r.reason || "Nicio soluție.").replace(/&#\d+;/g, (m) => m);
         info.innerHTML =
-          `<div class="card an-inline"><span class="badge badge-warn">f&#259;r&#259; solu&#539;ie</span> ${r.reason || ""}</div>`;
+          `<div class="card an-inline"><span class="badge badge-warn">fără soluție</span> ${r.reason || ""}</div>`;
         return;
       }
 
       // descriere constrangeri aplicate
       const parts = [];
-      if (sumMinRaw || sumMaxRaw) parts.push(`sum&#259; ${constraints.sumMin}&ndash;${constraints.sumMax}`);
+      if (sumMinRaw || sumMaxRaw) parts.push(`sumă ${constraints.sumMin}–${constraints.sumMax}`);
       if (constraints.evenCount !== null) parts.push(`${constraints.evenCount} pare`);
       if (constraints.primeCount !== null) parts.push(`${constraints.primeCount} prime`);
       if (include.length) parts.push(`include ${include.join(",")}`);
       if (exclude.length) parts.push(`exclude ${exclude.length} nr.`);
-      const desc = parts.length ? parts.join(" &middot; ") : "fără constrângeri";
+      const desc = parts.length ? parts.join(" · ") : "fără constrângeri";
 
       info.innerHTML =
-        `<div class="card an-inline"><span class="badge badge-ok">${r.solutions.length} solu&#539;ii</span>
-         ${desc} &middot; ${r.steps} pa&#537;i</div>`;
+        `<div class="card an-inline"><span class="badge badge-ok">${r.solutions.length} soluții</span>
+         ${desc} · ${r.steps} pași</div>`;
 
       results.innerHTML = r.solutions
         .map((s, i) => {

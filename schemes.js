@@ -1,31 +1,31 @@
 /*
  * SCHEME REDUSE (SISTEME REDUSE) LOTO 6/49
  * ----------------------------------------
- * Un sistem redus permite jucarea a N numere alese (mai mari decat 6)
- * pe un numar redus de bilete de cate 6 numere, oferind o GARANTIE:
+ * Un sistem redus permite jucarea a N numere alese (mai mari decât 6)
+ * pe un număr redus de bilete de câte 6 numere, oferind o GARANȚIE:
  *
- *   "garantie K din M"  =>  daca M dintre numerele tale alese sunt printre
- *   cele 6 extrase, atunci CEL PUTIN un bilet va contine K dintre ele.
+ *   "garanție K din M"  =>  dacă M dintre numerele tale alese sunt printre
+ *   cele 6 extrase, atunci CEL PUȚIN un bilet va conține K dintre ele.
  *
- * Fiecare schema este definita ca un set de "blocuri". Un bloc este un
- * bilet exprimat prin INDICII (1..N) numerelor alese de utilizator.
- * Ex: pentru 7 numere alese [n1..n7], blocul [1,2,3,4,5,6] inseamna
+ * Fiecare schemă este definită ca un set de "blocuri". Un bloc este un
+ * bilet exprimat prin INDICI (1..N) numerelor alese de utilizator.
+ * Ex: pentru 7 numere alese [n1..n7], blocul [1,2,3,4,5,6] înseamnă
  * biletul cu numerele n1,n2,n3,n4,n5,n6.
  *
  * TOATE schemele reduse de mai jos au fost GENERATE ca "covering designs"
- * (Cover(N,6,M,K)) si VERIFICATE prin forta bruta: pentru orice M-subset al
- * numerelor alese exista cel putin un bilet cu >= K numere din acel subset.
+ * (Cover(N,6,M,K)) și VERIFICATE prin forță brută: pentru orice M-subset al
+ * numerelor alese există cel puțin un bilet cu >= K numere din acel subset.
  * (vezi _build_covers.js / _test_schemes.js).
  */
 
 const LOTO_SCHEMES = [
   {
     id: "full-7",
-    name: "7 numere - Integral (garantie 6 din 6)",
+    name: "7 numere - Integral (garanție 6 din 6)",
     picks: 7,
     guarantee:
-      "Daca toate cele 6 numere extrase sunt printre cele 7 alese, ai 6 din 6 garantat. Acopera si orice categorie inferioara.",
-    detail: "Sistem integral: toate combinarile de 6 din 7. Numar bilete: C(7,6) = 7.",
+      "Dacă toate cele 6 numere extrase sunt printre cele 7 alese, ai 6 din 6 garantat. Acoperă și orice categorie inferioară.",
+    detail: "Sistem integral: toate combinațiile de 6 din 7. Număr bilete: C(7,6) = 7.",
     blocks: [
       [1, 2, 3, 4, 5, 6],
       [1, 2, 3, 4, 5, 7],
@@ -38,11 +38,11 @@ const LOTO_SCHEMES = [
   },
   {
     id: "full-8",
-    name: "8 numere - Integral (garantie 6 din 6)",
+    name: "8 numere - Integral (garanție 6 din 6)",
     picks: 8,
     guarantee:
-      "Daca toate cele 6 numere extrase sunt printre cele 8 alese, ai 6 din 6 garantat.",
-    detail: "Sistem integral: toate combinarile de 6 din 8. Numar bilete: C(8,6) = 28.",
+      "Dacă toate cele 6 numere extrase sunt printre cele 8 alese, ai 6 din 6 garantat.",
+    detail: "Sistem integral: toate combinațiile de 6 din 8. Număr bilete: C(8,6) = 28.",
     blocks: null,
     generate: function () {
       return combinations([1, 2, 3, 4, 5, 6, 7, 8], 6);
@@ -50,10 +50,10 @@ const LOTO_SCHEMES = [
   },
   {
     id: "red-8-4in4",
-    name: "8 numere - Redus (garantie 4 din 4)",
+    name: "8 numere - Redus (garanție 4 din 4)",
     picks: 8,
     guarantee:
-      "Daca 4 dintre cele 8 numere alese sunt extrase, ai garantat cel putin un bilet cu 4 nimerite (categoria III).",
+      "Dacă 4 dintre cele 8 numere alese sunt extrase, ai garantat cel puțin un bilet cu 4 nimerite (categoria III).",
     detail: "Sistem redus economic pe 8 bilete.",
     blocks: [
       [1, 2, 3, 4, 5, 6],
@@ -68,10 +68,10 @@ const LOTO_SCHEMES = [
   },
   {
     id: "red-9-4in4",
-    name: "9 numere - Redus (garantie 4 din 4)",
+    name: "9 numere - Redus (garanție 4 din 4)",
     picks: 9,
     guarantee:
-      "Daca 4 dintre cele 9 numere alese sunt extrase, ai garantat cel putin un bilet cu 4 nimerite (categoria III).",
+      "Dacă 4 dintre cele 9 numere alese sunt extrase, ai garantat cel puțin un bilet cu 4 nimerite (categoria III).",
     detail: "Sistem redus pe 12 bilete.",
     blocks: [
       [1, 2, 3, 4, 5, 6],
@@ -90,10 +90,10 @@ const LOTO_SCHEMES = [
   },
   {
     id: "red-10-3in3",
-    name: "10 numere - Redus (garantie 3 din 3)",
+    name: "10 numere - Redus (garanție 3 din 3)",
     picks: 10,
     guarantee:
-      "Daca 3 dintre cele 10 numere alese sunt extrase, ai garantat cel putin un bilet cu 3 nimerite (categoria IV).",
+      "Dacă 3 dintre cele 10 numere alese sunt extrase, ai garantat cel puțin un bilet cu 3 nimerite (categoria IV).",
     detail: "Sistem redus foarte economic pe 10 bilete.",
     blocks: [
       [1, 2, 3, 4, 5, 6],
@@ -110,11 +110,11 @@ const LOTO_SCHEMES = [
   },
   {
     id: "red-10-4in4",
-    name: "10 numere - Redus (garantie 4 din 4)",
+    name: "10 numere - Redus (garanție 4 din 4)",
     picks: 10,
     guarantee:
-      "Daca 4 dintre cele 10 numere alese sunt extrase, ai garantat cel putin un bilet cu 4 nimerite (categoria III).",
-    detail: "Sistem redus pe 23 bilete, acoperire mai buna.",
+      "Dacă 4 dintre cele 10 numere alese sunt extrase, ai garantat cel puțin un bilet cu 4 nimerite (categoria III).",
+    detail: "Sistem redus pe 23 bilete, acoperire mai bună.",
     blocks: [
       [1, 2, 3, 4, 5, 6],
       [1, 2, 3, 7, 8, 9],
@@ -143,10 +143,10 @@ const LOTO_SCHEMES = [
   },
   {
     id: "red-12-3in3",
-    name: "12 numere - Redus (garantie 3 din 3)",
+    name: "12 numere - Redus (garanție 3 din 3)",
     picks: 12,
     guarantee:
-      "Daca 3 dintre cele 12 numere alese sunt extrase, ai garantat cel putin un bilet cu 3 nimerite (categoria IV).",
+      "Dacă 3 dintre cele 12 numere alese sunt extrase, ai garantat cel puțin un bilet cu 3 nimerite (categoria IV).",
     detail: "Sistem redus economic pe 15 bilete pentru 12 numere.",
     blocks: [
       [1, 2, 3, 4, 5, 6],
@@ -168,11 +168,11 @@ const LOTO_SCHEMES = [
   },
   {
     id: "red-12-4in4",
-    name: "12 numere - Redus (garantie 4 din 4)",
+    name: "12 numere - Redus (garanție 4 din 4)",
     picks: 12,
     guarantee:
-      "Daca 4 dintre cele 12 numere alese sunt extrase, ai garantat cel putin un bilet cu 4 nimerite (categoria III).",
-    detail: "Sistem redus pe 53 bilete, acoperire larga pentru 12 numere.",
+      "Dacă 4 dintre cele 12 numere alese sunt extrase, ai garantat cel puțin un bilet cu 4 nimerite (categoria III).",
+    detail: "Sistem redus pe 53 bilete, acoperire largă pentru 12 numere.",
     blocks: [
       [1, 2, 3, 4, 5, 6], [1, 2, 3, 7, 8, 9], [1, 2, 3, 10, 11, 12],
       [1, 4, 5, 7, 8, 10], [1, 4, 5, 9, 11, 12], [1, 6, 7, 8, 11, 12],
@@ -196,7 +196,7 @@ const LOTO_SCHEMES = [
   },
 ];
 
-/* Genereaza toate combinarile de r elemente dintr-un array */
+/* Generează toate combinațiile de r elemente dintr-un array */
 function combinations(arr, r) {
   const result = [];
   const n = arr.length;
@@ -213,7 +213,7 @@ function combinations(arr, r) {
   return result;
 }
 
-/* Intoarce blocurile unei scheme (generand daca e cazul) */
+/* Întoarce blocurile unei scheme (generând dacă e cazul) */
 function getSchemeBlocks(scheme) {
   if (scheme.blocks) return scheme.blocks;
   if (typeof scheme.generate === "function") return scheme.generate();

@@ -42,24 +42,24 @@
         <div class="hero-text">
           <p class="eyebrow">Loto</p>
           <h1>Generator Loto</h1>
-          <p class="subtitle">Variante &middot; Scheme reduse &middot; Probabilit&#259;&#539;i</p>
+          <p class="subtitle">Variante · Scheme reduse · Probabilități</p>
         </div>
       </div>
       <a class="btn-results" href="https://www.loto.ro/?p=3872" target="_blank" rel="noopener">
-        <span class="btn-results-icon">&#128200;</span>
+        <span class="btn-results-icon">📚</span>
         <span class="btn-results-text">
           <strong>Rezultate extrageri</strong>
           <small>Vezi extragerile oficiale pe loto.ro</small>
         </span>
-        <span class="btn-results-chevron">&#8250;</span>
+        <span class="btn-results-chevron">›</span>
       </a>
     </header>
 
     <nav class="segmented" role="tablist">
       <button class="seg-btn active" data-tab="generator">Generator</button>
       <button class="seg-btn" data-tab="scheme">Scheme</button>
-      <button class="seg-btn" data-tab="probabilitati">&#536;anse</button>
-      <button class="seg-btn" data-tab="analiza">Analiz&#259;</button>
+      <button class="seg-btn" data-tab="probabilitati">Șanse</button>
+      <button class="seg-btn" data-tab="analiza">Analiză</button>
     </nav>
 
     <main>
@@ -68,11 +68,11 @@
         <p class="group-title">Generator variante</p>
         <div class="card">
           <div class="row row-input">
-            <span class="row-label">Num&#259;r de variante</span>
+            <span class="row-label">Număr de variante</span>
             <input type="number" id="gen-count" value="1" min="1" max="50" />
           </div>
           <div class="row row-toggle">
-            <span class="row-label">Evit&#259; variante duplicate</span>
+            <span class="row-label">Evită variante duplicate</span>
             <label class="switch">
               <input type="checkbox" id="gen-no-duplicates" checked />
               <span class="slider"></span>
@@ -81,27 +81,27 @@
         </div>
 
         <div class="btn-stack">
-          <button id="gen-btn" class="btn primary">Genereaz&#259;</button>
-          <button id="lucky-btn" class="btn lucky">&#127808; M&#259; simt norocos</button>
+          <button id="gen-btn" class="btn primary">Generează</button>
+          <button id="lucky-btn" class="btn lucky">🎰 Mă simt norocos</button>
           <div class="btn-pair">
-            <button id="gen-copy" class="btn tinted">Copiaz&#259;</button>
-            <button id="gen-clear" class="btn tinted danger">&#536;terge</button>
+            <button id="gen-copy" class="btn tinted">Copiază</button>
+            <button id="gen-clear" class="btn tinted danger">Șterge</button>
           </div>
         </div>
 
         <div id="gen-results" class="results"></div>
 
-        <p class="group-title">Cum func&#539;ioneaz&#259;</p>
+        <p class="group-title">Cum funcționează</p>
         <div class="card info">
           <p class="muted">
-            La Loto 6/49 se extrag 6 bile din 49, f&#259;r&#259; &#238;nlocuire &#537;i f&#259;r&#259;
+            La Loto 6/49 se extrag 6 bile din 49, fără înlocuire și fără
             ordine. Generatorul reproduce fidel acest proces cu un algoritm de
-            amestecare (Fisher&ndash;Yates) &#537;i surs&#259; aleatoare criptografic&#259;.
+            amestecare (Fisher–Yates) și sursă aleatoare criptografică.
           </p>
           <p class="muted" style="margin-top:10px;">
-            Butonul <strong>M&#259; simt norocos</strong> combin&#259; mai mul&#539;i algoritmi
-            (ChaCha20, filtru de sum&#259;, par/impar &#537;i Markov) &#238;ntr-o singur&#259;
-            variant&#259;. Nu cre&#537;te &#537;ansa de c&#226;&#537;tig.
+            Butonul <strong>Mă simt norocos</strong> combină mai mulți algoritmi
+            (ChaCha20, filtru de sumă, par/impar și Markov) într-o singură
+            variantă. Nu crește șansa de câștig.
           </p>
         </div>
       </section>
@@ -128,10 +128,10 @@
         </div>
 
         <div class="btn-stack">
-          <button id="scheme-build" class="btn primary">Genereaz&#259; biletele</button>
+          <button id="scheme-build" class="btn primary">Generează biletele</button>
           <div class="btn-pair">
             <button id="scheme-random" class="btn tinted">Alege aleator</button>
-            <button id="scheme-clear" class="btn tinted danger">&#536;terge</button>
+            <button id="scheme-clear" class="btn tinted danger">Șterge</button>
           </div>
         </div>
 
@@ -140,7 +140,7 @@
 
       <!-- ============ TAB PROBABILITATI ============ -->
       <section id="probabilitati" class="tab-panel">
-        <p class="group-title">&#536;anse de c&#226;&#537;tig</p>
+        <p class="group-title">Șanse de câștig</p>
         <div class="card no-pad">
           <div id="prob-table"></div>
         </div>
@@ -148,19 +148,19 @@
         <p class="group-title">Formula</p>
         <div class="card info">
           <p class="muted">Probabilitatea de a nimeri exact <em>k</em> numere:</p>
-          <p class="formula">P(k) = C(6,k) &times; C(43,6&minus;k) / C(49,6)</p>
+          <p class="formula">P(k) = C(6,k) × C(43,6−k) / C(49,6)</p>
           <p class="muted">
-            C(49,6) = 13.983.816 combina&#539;ii posibile.
+            C(49,6) = 13.983.816 combinații posibile.
           </p>
         </div>
 
-        <p class="group-title">De re&#539;inut</p>
+        <p class="group-title">De reținut</p>
         <div class="card warn">
           <ul>
-            <li>Fiecare combina&#539;ie are aceea&#537;i &#537;ans&#259;: <strong>1 din 13.983.816</strong>.</li>
-            <li>Extragerile sunt independente &mdash; trecutul nu influen&#539;eaz&#259; viitorul.</li>
-            <li>Schemele reduse nu cresc &#537;ansa total&#259;, doar distribuie acoperirea.</li>
-            <li>Instrument informativ &#537;i de divertisment.</li>
+            <li>Fiecare combinație are aceeași șansă: <strong>1 din 13.983.816</strong>.</li>
+            <li>Extragerile sunt independente — trecutul nu influențează viitorul.</li>
+            <li>Schemele reduse nu cresc șansa totală, doar distribuie acoperirea.</li>
+            <li>Instrument informativ și de divertisment.</li>
           </ul>
         </div>
       </section>
@@ -168,40 +168,40 @@
       <!-- ============ TAB ANALIZA ============ -->
       <section id="analiza" class="tab-panel">
         <div class="card warn disclaimer">
-          <p><strong>Important:</strong> ace&#537;ti algoritmi analizeaz&#259; doar
-          extrageri trecute. Extragerile sunt independente &#537;i aleatorii, deci
-          <strong>nu pot prezice</strong> numere &#537;i nu cresc &#537;ansa de c&#226;&#537;tig.
-          Sunt instrumente statistice &#537;i educative.</p>
+          <p><strong>Important:</strong> acești algoritmi analizează doar
+          extrageri trecute. Extragerile sunt independente și aleatorii, deci
+          <strong>nu pot prezice</strong> numere și nu cresc șansa de câștig.
+          Sunt instrumente statistice și educative.</p>
         </div>
 
         <p class="group-title">Istoric extrageri</p>
         <div class="card info">
           <p class="hist-status" id="hist-status"></p>
           <textarea id="hist-import-text" class="hist-textarea"
-            placeholder="Lipe&#537;te extrageri, c&#226;te una pe linie:&#10;2024-01-01, 3 12 24 31 40 45&#10;7, 15, 22, 28, 35, 44&#10;..."></textarea>
+            placeholder="Lipește extrageri, câte una pe linie:&#10;2024-01-01, 3 12 24 31 40 45&#10;7, 15, 22, 28, 35, 44&#10;..."></textarea>
           <div class="btn-stack">
             <button id="hist-import-btn" class="btn primary">Importa din text</button>
             <div class="btn-pair">
               <label class="btn tinted file-btn">
-                &#128193; Fi&#537;ier CSV
+                📁 Fișier CSV
                 <input type="file" id="hist-file" accept=".csv,.txt" hidden />
               </label>
               <button id="hist-demo-btn" class="btn tinted">Set demo</button>
             </div>
-            <button id="hist-clear-btn" class="btn tinted danger">&#536;terge istoricul</button>
+            <button id="hist-clear-btn" class="btn tinted danger">Șterge istoricul</button>
           </div>
         </div>
 
-        <p class="group-title" id="analysis-empty">Rezultate analiz&#259;</p>
+        <p class="group-title" id="analysis-empty">Rezultate analiză</p>
         <div class="empty-hint" id="analysis-empty-hint"></div>
         <div id="analysis-output"></div>
 
         <p class="group-title">Generator ghidat statistic</p>
         <div class="card">
-          <p class="muted" style="padding:8px 0;">Genereaz&#259; variante care respect&#259;
-          tiparele istorice dominante (nu cresc &#537;ansa real&#259;).</p>
+          <p class="muted" style="padding:8px 0;">Generează variante care respectă
+          tiparele istorice dominante (nu cresc șansa reală).</p>
           <div class="row row-toggle">
-            <span class="row-label">Filtru de sum&#259;</span>
+            <span class="row-label">Filtru de sumă</span>
             <label class="switch"><input type="checkbox" id="guided-sum" checked /><span class="slider"></span></label>
           </div>
           <div class="row row-toggle">
@@ -214,21 +214,21 @@
           </div>
         </div>
         <div class="btn-stack">
-          <button id="guided-btn" class="btn primary">Genereaz&#259; variante ghidate</button>
+          <button id="guided-btn" class="btn primary">Generează variante ghidate</button>
         </div>
         <div id="guided-results" class="results"></div>
 
-        <p class="group-title">Construc&#539;ie schem&#259; (Greedy)</p>
+        <p class="group-title">Construcție schemă (Greedy)</p>
         <div class="card">
           <p class="muted" style="padding:8px 0;">Algoritmul <strong>Greedy</strong>
-          construie&#537;te un sistem redus pentru numerele tale, aleg&#226;nd lacom biletele
-          care acoper&#259; cele mai multe combina&#539;ii.</p>
+          construiește un sistem redus pentru numerele tale, alegând lacom biletele
+          care acoperă cele mai multe combinații.</p>
           <div class="row row-input">
             <span class="row-label">Numere alese</span>
             <input type="text" id="greedy-nums" placeholder="ex: 3 8 12 19 25 30 41 45" />
           </div>
           <div class="row row-input">
-            <span class="row-label">Garan&#539;ie K din M</span>
+            <span class="row-label">Garanție K din M</span>
             <span class="kmsel">
               <select id="greedy-k"></select>
               <span class="kmsel-sep">din</span>
@@ -237,7 +237,7 @@
           </div>
           <div class="btn-pair" style="margin-top:12px;">
             <button id="greedy-random" class="btn tinted">Numere aleatorii</button>
-            <button id="greedy-build" class="btn primary">Construie&#537;te</button>
+            <button id="greedy-build" class="btn primary">Construiește</button>
           </div>
         </div>
         <div id="greedy-info" class="an-inline-info"></div>
@@ -245,27 +245,27 @@
 
         <p class="group-title">Optimizare bilete (Simulated Annealing)</p>
         <div class="card">
-          <p class="muted" style="padding:8px 0;">Pornind de la schema construit&#259; mai sus,
-          <strong>C&#259;lirea simulat&#259;</strong> caut&#259; o list&#259; mai mic&#259; de bilete care
-          p&#259;streaz&#259; aceea&#537;i garan&#539;ie.</p>
+          <p class="muted" style="padding:8px 0;">Pornind de la schema construită mai sus,
+          <strong>Călirea simulată</strong> caută o listă mai mică de bilete care
+          păstrează aceeași garanție.</p>
           <div class="btn-stack">
-            <button id="anneal-btn" class="btn primary">Optimizeaz&#259; schema</button>
+            <button id="anneal-btn" class="btn primary">Optimizează schema</button>
           </div>
         </div>
         <div id="anneal-info" class="an-inline-info"></div>
         <div id="anneal-results" class="results"></div>
 
-        <p class="group-title">Generator cu constr&#226;ngeri (Backtracking)</p>
+        <p class="group-title">Generator cu constrângeri (Backtracking)</p>
         <div class="card">
           <p class="muted" style="padding:8px 0;">Algoritmul <strong>Backtracking</strong>
-          construie&#537;te combina&#539;ii num&#259;r cu num&#259;r &#537;i garanteaz&#259; c&#259; respect&#259;
-          toate regulile impuse (sau confirm&#259; c&#259; nu exist&#259; solu&#539;ie).</p>
+          construiește combinații număr cu număr și garantează că respectă
+          toate regulile impuse (sau confirmă că nu există soluție).</p>
 
           <div class="row row-input">
-            <span class="row-label">Sum&#259; &#238;ntre</span>
+            <span class="row-label">Sumă Între</span>
             <span class="range-pair">
               <input type="number" id="bt-summin" min="21" max="279" placeholder="min" />
-              <span class="range-sep">&ndash;</span>
+              <span class="range-sep">–</span>
               <input type="number" id="bt-summax" min="21" max="279" placeholder="max" />
             </span>
           </div>
@@ -286,12 +286,12 @@
             <input type="text" id="bt-exclude" placeholder="ex: 1 2 3" />
           </div>
           <div class="row row-input">
-            <span class="row-label">C&#226;te variante</span>
+            <span class="row-label">Câte variante</span>
             <input type="number" id="bt-count" value="3" min="1" max="20" />
           </div>
           <div class="btn-pair" style="margin-top:12px;">
-            <button id="bt-reset" class="btn tinted">Reseteaz&#259;</button>
-            <button id="bt-build" class="btn primary">Genereaz&#259;</button>
+            <button id="bt-reset" class="btn tinted">Resetează</button>
+            <button id="bt-build" class="btn primary">Generează</button>
           </div>
         </div>
         <div id="bt-info" class="an-inline-info"></div>
@@ -300,7 +300,7 @@
     </main>
 
     <footer class="app-footer">
-      <p>Instrument informativ &middot; Joac&#259; responsabil</p>
+      <p>Instrument informativ · Joacă responsabil</p>
     </footer>
   </div>
 

@@ -202,7 +202,7 @@ function kmeansAnalysis(draws, K = 3, maxIter = 50) {
     };
   });
 
-  // ordoneaza clusterele dupa frecventa medie descrescator
+  // ordonează clusterele după frecvența medie descrescător
   result.sort((a, b) => b.avgFreq - a.avgFreq);
   return { K, clusters: result };
 }
@@ -212,7 +212,7 @@ function kmeansAnalysis(draws, K = 3, maxIter = 50) {
    ------------------------------------------------------------
    Suma celor 6 numere urmeaza aproximativ o distributie normala.
    Calculam media/abaterea observata + intervalul "tipic" si
-   verificam daca o combinatie propusa cade in acest interval.
+   verificăm dacă o combinație propusă cade în acest interval.
    ============================================================ */
 function sumAnalysis(draws) {
   if (draws.length === 0) return null;
@@ -259,7 +259,7 @@ function sumAnalysis(draws) {
    5) RAPORTUL PAR/IMPAR SI NUMERE PRIME
    ------------------------------------------------------------
    Analizeaza distributia par/impar si numarul de prime in
-   extragerile trecute; arata combinatiile cele mai frecvente.
+   extragerile trecute; arată combinațiile cele mai frecvente.
    ============================================================ */
 function parityPrimeAnalysis(draws) {
   if (draws.length === 0) return null;
@@ -358,7 +358,7 @@ function guidedGenerate(draws, opts = {}) {
     return pool.slice(0, 6).sort((a, b) => a - b);
   }
 
-  // incearca sa gaseasca o combinatie care respecta filtrele
+  // încearcă să găsească o combinație care respectă filtrele
   const targetOE = pp && pp.mostCommonOE ? pp.mostCommonOE.key : null;
   for (let attempt = 0; attempt < 2000; attempt++) {
     const combo = pickCombo();
@@ -395,7 +395,7 @@ function luckyGenerate(draws, rng) {
 
   const hasHistory = Array.isArray(draws) && draws.length >= 5;
   const reasons = [];
-  reasons.push(rng ? "Surs\u0103 ChaCha20 (criptografic\u0103)" : "Surs\u0103 aleatoare de sistem");
+  reasons.push(rng ? "Sursă ChaCha20 (criptografică)" : "Sursă aleatoare de sistem");
 
   let sum = null, pp = null, markov = null;
   if (hasHistory) {
@@ -436,7 +436,7 @@ function luckyGenerate(draws, rng) {
   }
 
   const targetOE = pp && pp.mostCommonOE ? pp.mostCommonOE.key : null;
-  if (sum) reasons.push(`Sum\u0103 \u00een intervalul tipic ${sum.range68[0]}\u2013${sum.range68[1]}`);
+  if (sum) reasons.push(`Sumă î intervalul tipic ${sum.range68[0]}–${sum.range68[1]}`);
   if (targetOE) reasons.push(`Raport par/impar frecvent (${targetOE})`);
 
   let combo = null;
@@ -474,11 +474,11 @@ function luckyGenerate(draws, rng) {
 /* ============================================================
    BACKTRACKING - generare combinatii cu constrangeri
    ------------------------------------------------------------
-   Construieste o combinatie 6/49 numar cu numar, verificand la
-   fiecare pas daca poate INCA respecta toate constrangerile
-   (poda / pruning). Daca ajunge in fundatura, se intoarce si
-   incearca alt numar. Garanteaza gasirea unei solutii valide
-   daca exista, sau confirma ca nu exista.
+Construiește o combinație 6/49 număr cu număr, verificând la
+fiecare pas dacă poate ÎNCĂ respecta toate constrângerile
+(podă / pruning). Dacă ajunge în fundătură, se întoarce și
+încearcă alt număr. Garantează găsirea unei soluții valide
+dacă există, sau confirmă că nu există.
 
    constraints = {
      sumMin, sumMax,          // interval suma
@@ -487,8 +487,8 @@ function luckyGenerate(draws, rng) {
      include: [numere],       // numere obligatorii
      exclude: [numere],       // numere interzise
    }
-   Optiuni: { limit } = cate solutii sa returneze (default 1),
-            shuffle = ordinea de incercare aleatorie (rng optional)
+Optiuni: { limit } = cate solutii sa returneze (default 1),
+             shuffle = ordinea de încercare aleatorie (rng optional)
    ============================================================ */
 function backtrackGenerate(constraints = {}, options = {}) {
   const {
@@ -509,7 +509,7 @@ function backtrackGenerate(constraints = {}, options = {}) {
   const excludeSet = new Set(exclude.filter((n) => n >= 1 && n <= 49));
   // conflict: acelasi numar inclus si exclus
   for (const n of includeSet) if (excludeSet.has(n)) {
-    return { solutions: [], reason: `Num&#259;rul ${n} este &#537;i inclus &#537;i exclus.`, valid: false };
+    return { solutions: [], reason: `Numărul ${n} este și inclus și exclus.`, valid: false };
   }
   if (includeSet.size > 6) {
     return { solutions: [], reason: "Prea multe numere obligatorii (maxim 6).", valid: false };
@@ -672,7 +672,7 @@ function backtrackGenerate(constraints = {}, options = {}) {
     steps,
     reason: solutions.length > 0
       ? null
-      : "Nu exist&#259; nicio combina&#539;ie care s&#259; respecte toate constr&#226;ngerile.",
+      : "Nu există nicio combinație care să respecte toate constrângerile.",
   };
 }
 
