@@ -45,14 +45,22 @@
           <p class="subtitle">Variante · Scheme reduse · Probabilități</p>
         </div>
       </div>
-      <a class="btn-results" href="https://www.loto.ro/?p=3872" target="_blank" rel="noopener">
-        <span class="btn-results-icon">📚</span>
-        <span class="btn-results-text">
-          <strong>Rezultate extrageri</strong>
-          <small>Vezi extragerile oficiale pe loto.ro</small>
-        </span>
-        <span class="btn-results-chevron">›</span>
-      </a>
+      <div class="card live-results" id="live-results">
+        <div class="live-head">
+          <div class="live-head-text">
+            <strong>Ultimele rezultate · Loto 6/49</strong>
+            <small id="live-date">—</small>
+          </div>
+          <button id="live-refresh" class="live-refresh" aria-label="Actualizează rezultatele" title="Actualizează">⟳</button>
+        </div>
+        <div class="live-balls" id="live-balls">
+          <span class="live-loading">Se încarcă…</span>
+        </div>
+        <div class="live-foot">
+          <small id="live-updated">—</small>
+          <a href="https://www.loto.ro/?p=3872" target="_blank" rel="noopener">Surse loto.ro ›</a>
+        </div>
+      </div>
     </header>
 
     <nav class="segmented" role="tablist">

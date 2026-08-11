@@ -879,12 +879,130 @@ function initBacktracking() {
 }
 
 /* ============================================================
+   LIVE RESULTS (Loto 6/49 via loto.ro)
+   ============================================================ */
+const LOTO_API_URL = "/api/loto649";
+const LOTO_SOURCE_URL =
+  "https://www.loto.ro/loto-new/newLotoSiteNexioFinalVersion/web/app2.php/jocuri/649_si_noroc/rezultate_extragere.html";
+const LOTO_REFRESH_MS = 10 * 60 * 1000; // auto-refresh every 10 min
+
+let liveLastFetched = null;
+
+function parseLotoHtmlDOM(htmlStr) {
+  const doc = new DOMParser().parseFromString(htmlStr, "text/html");
+  const block = doc.querySelector(".rezultate-extrageri-content");
+  if (!block) throw new Error("Nu am gasit rezultatele");
+  const imgs = block.querySelectorAll(".numere-extrase img");
+  const numbers = [];
+  imgs.forEach((img) => {
+    const m = (img.getAttribute("src") || "").match(/bile\/(\d+)\.png/);
+    if (m && numbers.length < 6) numbers.push(parseInt(m[1], 10));
+  });
+  if (numbers.length < 6) throw new Error("Numere incomplete");
+  const det = block.querySelector(".button-open-details span");
+  return { date: det ? det.textContent.trim() : null, numbers };
+}
+
+async function fetchLotoFallback() {
+  const proxies = [
+    "https://api.allorigins.win/raw?url=",
+    "https://corsproxy.io/?url=",
+  ];
+  for (const base of proxies) {
+    try {
+      const res = await fetch(base + encodeURIComponent(LOTO_SOURCE_URL));
+      if (!res.ok) continue;
+      const html = await res.text();
+      return { ...parseLotoHtmlDOM(html), fetchedAt: new Date().toISOString() };
+    } catch (_) {
+      /* try next proxy */
+    }
+  }
+  throw new Error("Nu s-au putut prelua rezultatele");
+}
+
+async function tryJson(url) {
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) throw new Error("HTTP " + res.status);
+  const d = await res.json();
+  if (!d || !Array.isArray(d.numbers) || d.numbers.length !== 6) {
+    throw new Error("date invalide");
+  }
+  return { ...d, fetchedAt: d.fetchedAt || new Date().toISOString() };
+}
+
+async function fetchLoto() {
+  // 1) results.json served same-origin (GitHub Pages / local server)
+  // 2) local Node API
+  // 3) public CORS proxy fallback (client-only)
+  const sources = ["results.json", LOTO_API_URL];
+  for (const src of sources) {
+    try {
+      return await tryJson(src);
+    } catch (_) {
+      /* try next */
+    }
+  }
+  return fetchLotoFallback();
+}
+
+function timeAgo(iso) {
+  const sec = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 1000));
+  if (sec < 60) return "acum câteva secunde";
+  const min = Math.round(sec / 60);
+  if (min < 60) return `actualizat acum ${min} min`;
+  const h = Math.round(min / 60);
+  return `actualizat acum ${h} h`;
+}
+
+function renderLive(data) {
+  const balls = document.getElementById("live-balls");
+  const dateEl = document.getElementById("live-date");
+  const updEl = document.getElementById("live-updated");
+  if (!data || !data.numbers || data.numbers.length !== 6) {
+    balls.innerHTML = '<span class="live-loading">Rezultate indisponibile</span>';
+    return;
+  }
+  balls.innerHTML = ballsHtml(data.numbers);
+  dateEl.textContent = data.date ? `Extragere ${data.date}` : "";
+  liveLastFetched = data.fetchedAt || new Date().toISOString();
+  updEl.textContent = timeAgo(liveLastFetched) + (data.stale ? " (date mai vechi)" : "");
+}
+
+async function loadLiveResults() {
+  const balls = document.getElementById("live-balls");
+  if (balls) balls.innerHTML = '<span class="live-loading">Se încarcă…</span>';
+  try {
+    const data = await fetchLoto();
+    renderLive(data);
+  } catch (e) {
+    if (balls) balls.innerHTML = '<span class="live-loading">Rezultate indisponibile</span>';
+    const updEl = document.getElementById("live-updated");
+    if (updEl) updEl.textContent = "Eroare la preluare";
+  }
+}
+
+function initLiveResults() {
+  const btn = document.getElementById("live-refresh");
+  if (btn) btn.addEventListener("click", loadLiveResults);
+  loadLiveResults();
+  setInterval(loadLiveResults, LOTO_REFRESH_MS);
+  setInterval(() => {
+    if (liveLastFetched) {
+      const updEl = document.getElementById("live-updated");
+      if (updEl) updEl.textContent = timeAgo(liveLastFetched);
+    }
+  }, 30000);
+}
+
+/* ============================================================
    INIT
    ============================================================ */
 loadScheme(LOTO_SCHEMES[0].id);
 buildProbTable();
 initAnalysisTab();
 initBacktracking();
+initLiveResults();
 // genereaza o varianta initiala pentru demonstratie
 document.getElementById("gen-btn").click();
 
