@@ -976,3 +976,30 @@ input[type="text"]::placeholder { color: var(--ios-tertiary); }
 }
 .live-foot small { color: var(--ios-secondary, #8a8a8e); font-size: 11px; }
 .live-foot a { color: #2575fc; font-size: 12px; text-decoration: none; font-weight: 600; }
+
+/* ---------- Card susține (Stripe) ---------- */
+.support-card { margin: 12px 14px 0; padding: 14px; }
+.support-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.support-emoji { font-size: 22px; line-height: 1; }
+.support-head strong { display: block; font-size: 14px; font-weight: 700; }
+.support-head small { color: var(--ios-secondary, #8a8a8e); font-size: 12px; }
+
+.btn-support-primary {
+  display: block; width: 100%; text-align: center;
+  padding: 15px 20px; border: none; border-radius: 14px;
+  font-size: 16px; font-weight: 700; color: #3a2a00;
+  background: linear-gradient(135deg, #ffd60a 0%, #ff9f0a 100%);
+  box-shadow: 0 4px 14px rgba(255, 159, 10, 0.35);
+  transition: transform 0.1s ease, filter 0.1s ease;
+}
+.btn-support-primary:active { transform: translateY(1px); filter: brightness(0.96); }
+
+.btn-support-secondary {
+  display: block; width: 100%; text-align: center;
+  padding: 13px 20px; border-radius: 14px;
+  border: 1px solid rgba(0, 122, 255, 0.35);
+  font-size: 15px; font-weight: 600; color: #007aff;
+  background: rgba(0, 122, 255, 0.08);
+  transition: background 0.1s ease;
+}
+.btn-support-secondary:active { background: rgba(0, 122, 255, 0.16); }
