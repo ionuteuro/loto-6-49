@@ -1003,3 +1003,41 @@ input[type="text"]::placeholder { color: var(--ios-tertiary); }
   transition: background 0.1s ease;
 }
 .btn-support-secondary:active { background: rgba(0, 122, 255, 0.16); }
+
+/* ---------- Chenar Susține (colț dreapta, sus) ---------- */
+.header-row { display: flex; align-items: center; gap: 12px; }
+.hero { flex: 1 1 auto; min-width: 0; }
+.support-box {
+  flex: 0 0 auto;
+  width: 140px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+}
+.support-tag {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ios-orange);
+  margin-bottom: 2px;
+}
+.pay-btn {
+  display: block;
+  text-align: center;
+  padding: 10px 8px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: filter 0.1s ease;
+}
+.pay-btn:active { filter: brightness(0.95); }
+.pay-primary { background: var(--ios-orange); color: #fff; }
+.pay-secondary {
+  background: rgba(255, 149, 0, 0.14);
+  color: var(--ios-orange);
+  border: 1px solid rgba(255, 149, 0, 0.35);
+}
