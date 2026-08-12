@@ -2,6 +2,27 @@
    Generator Loto 6/49 - logica aplicatiei
    ============================================================ */
 
+// Afiseaza erorile pe ecran (util pentru diagnostic pe mobil)
+function showErrorBanner(msg) {
+  let b = document.getElementById("err-banner");
+  if (!b) {
+    b = document.createElement("div");
+    b.id = "err-banner";
+    b.style.cssText =
+      "position:fixed;left:8px;right:8px;bottom:8px;z-index:9999;" +
+      "background:#c0392b;color:#fff;padding:10px 12px;border-radius:10px;" +
+      "font:13px/1.4 system-ui;white-space:pre-wrap;box-shadow:0 4px 12px rgba(0,0,0,.35)";
+    (document.body || document.documentElement).appendChild(b);
+  }
+  b.textContent = "EROARE: " + msg;
+}
+window.addEventListener("error", (e) =>
+  showErrorBanner((e.message || "eroare") + (e.lineno ? " (linia " + e.lineno + ")" : ""))
+);
+window.addEventListener("unhandledrejection", (e) =>
+  showErrorBanner("promise: " + (e.reason && e.reason.message ? e.reason.message : e.reason))
+);
+
 /* ---------- Utilitare comune ---------- */
 
 // Amestecare Fisher-Yates cu Crypto (aleator de calitate)
@@ -1001,6 +1022,43 @@ function initLiveResults() {
 }
 
 /* ============================================================
+   STRIPE - butoane de sustinere (Payment Links)
+   ============================================================ */
+// Inlocuieste cele 2 URL-uri cu link-urile tale Stripe Payment Link.
+const STRIPE_OPTIONS = [
+  { label: "Donează 5 lei", url: "https://buy.stripe.com/28EdRbaXn14HgCqbWJ5sA00" },
+  { label: "Donează 50 lei", url: "https://buy.stripe.com/fZu3cxc1rdRtfym0e15sA01" },
+];
+
+// Deschide un link extern: pe mobil foloseste browser-ul nativ Capacitor
+// (daca e instalat @capacitor/browser), altfel deschide o fereastra noua.
+function openExternal(url) {
+  const cap = window.Capacitor;
+  if (cap && cap.Plugins && cap.Plugins.Browser) {
+    cap.Plugins.Browser.open({ url }).catch(() => window.open(url, "_blank", "noopener"));
+    return;
+  }
+  window.open(url, "_blank", "noopener,noreferrer");
+}
+
+function initStripeButtons() {
+  const buttons = [
+    document.getElementById("stripe-btn-1"),
+    document.getElementById("stripe-btn-2"),
+  ];
+  STRIPE_OPTIONS.forEach((opt, i) => {
+    const btn = buttons[i];
+    if (!btn) return;
+    btn.textContent = opt.label;
+    btn.setAttribute("href", opt.url);
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      openExternal(opt.url);
+    });
+  });
+}
+
+/* ============================================================
    INIT
    ============================================================ */
 loadScheme(LOTO_SCHEMES[0].id);
@@ -1008,6 +1066,7 @@ buildProbTable();
 initAnalysisTab();
 initBacktracking();
 initLiveResults();
+initStripeButtons();
 // genereaza o varianta initiala pentru demonstratie
 document.getElementById("gen-btn").click();
 
