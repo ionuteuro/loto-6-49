@@ -35,7 +35,7 @@ function secureShuffle(array) {
   return a;
 }
 
-// Numar aleator intreg in [0, max) folosind crypto daca e disponibil
+// Număr aleator întreg in [0, max) folosind crypto dacă e disponibil
 function randomInt(max) {
   if (window.crypto && window.crypto.getRandomValues) {
     const range = 2 ** 32;
@@ -126,7 +126,7 @@ function renderGenResults(tickets) {
   genResults.innerHTML = tickets
     .map(
       (t, i) =>
-        `<div class="ticket"><span class="ticket-label">Varianta ${i + 1}</span>${ballsHtml(t)}</div>`
+        `<div class="ticket"><span class="ticket-label">Variantă ${i + 1}</span>${ballsHtml(t)}</div>`
     )
     .join("");
 }
@@ -154,7 +154,7 @@ document.getElementById("lucky-btn").addEventListener("click", () => {
   let attempts = 0;
   const maxAttempts = count * 60;
 
-  // genereaza `count` variante (evitand duplicate)
+  // generează `count` variante (evitând duplicate)
   while (results.length < count && attempts < maxAttempts) {
     attempts++;
     const seed = "lucky-" + Date.now() + "-" + attempts + "-" + Math.floor(Math.random() * 1e6);
@@ -168,18 +168,18 @@ document.getElementById("lucky-btn").addEventListener("click", () => {
 
   lastGenerated = results.map((r) => r.combo);
 
-  // info comun (algoritmii combinati) - luat din prima varianta
+  // info comun (algoritmii combinați) - luat din prima variantă
   const first = results[0];
   const reasonsHtml = first.reasons.map((r) => `<li>${r}</li>`).join("");
   const noteHtml = first.usedHistory
     ? ""
     : '<p class="lucky-note">Fără istoric încărcat: se folosesc doar filtre de bază. Încarcă extragerile în tab-ul Analiză pentru mai multe filtre.</p>';
 
-  // cate o "varianta" pe rand
+  // câte o "variantă" pe rand
   const combosHtml = results
     .map((res, i) => {
       const st = res.stats;
-      const label = results.length > 1 ? `Varianta ${i + 1}` : "Varianta ta norocoasă";
+      const label = results.length > 1 ? `Variantă ${i + 1}` : "Variantă ta norocoasă";
       return `<div class="lucky-item">
           <div class="lucky-item-head">🎰 ${label}</div>
           ${ballsHtml(res.combo)}
@@ -272,7 +272,7 @@ function toggleSchemeNumber(n, cell) {
 
 function updateSchemeStatus() {
   schemeSelectedCount.textContent = schemeSelection.length;
-  // dezactiveaza celulele neselectate cand s-a atins limita
+  // dezactivează celulele neselectate cand s-a atins limita
   const atLimit = schemeSelection.length >= currentScheme.picks;
   schemeGrid.querySelectorAll(".num-cell").forEach((cell) => {
     const n = parseInt(cell.dataset.num);
@@ -304,7 +304,7 @@ function loadScheme(id) {
 schemeSelect.addEventListener("change", () => loadScheme(schemeSelect.value));
 // Initializam schema selectata implicit (altfel currentScheme ramane null
 // pana se schimba dropdown-ul — pe mobil, selectarea unei optiuni deja
-// preselectate nu declanseaza intotdeauna "change" si tab-ul pare blocat).
+// preselectate nu declanșează întotdeauna "change" si tab-ul pare blocat).
 loadScheme(schemeSelect.value);
 
 document.getElementById("scheme-random").addEventListener("click", () => {
@@ -523,9 +523,9 @@ function runAllAnalyses() {
   if (markov) {
     html += analysisBlock(
       "Lanturi Markov",
-      "Numere cu cea mai mare probabilitate de tranzitie dupa ultima extragere.",
+      "Numere cu cea mai mare probabilitate de tranziție după ultima extragere.",
       `<p class="an-sub">Ultima extragere</p>${miniBalls(markov.last)}
-       <p class="an-sub">Top candidati (scor tranzitie)</p>${miniBalls(markov.top.map((x) => x.n))}`
+       <p class="an-sub">Top candidați (scor tranziție)</p>${miniBalls(markov.top.map((x) => x.n))}`
     );
   }
 
@@ -561,7 +561,7 @@ function runAllAnalyses() {
       .join("");
     html += analysisBlock(
       "Filtru de sumă (distribuția normală)",
-      "Suma celor 6 numere tinde spre o distributie normala.",
+      "Suma celor 6 numere tinde spre o distribuție normală.",
       `<div class="stat-grid">
          <div><span class="stat-num">${sum.mean.toFixed(0)}</span><span class="stat-lbl">medie</span></div>
          <div><span class="stat-num">${sum.std.toFixed(0)}</span><span class="stat-lbl">abatere</span></div>
@@ -652,7 +652,7 @@ function initAnalysisTab() {
       const reader = new FileReader();
       reader.onload = () => {
         histImportText.value = reader.result;
-        toast("Fișier încărcat - apăsați Importa");
+        toast("Fișier încărcat - apăsați Importă");
       };
       reader.readAsText(file);
     });
@@ -803,7 +803,7 @@ function initGreedyAnneal() {
 }
 
 /* ============================================================
-   BACKTRACKING (generator cu constrangeri, in tab Analiza)
+   BACKTRACKING (generator cu constrângeri, in tab Analiza)
    ============================================================ */
 function initBacktracking() {
   const evenSel = document.getElementById("bt-even");
@@ -881,7 +881,7 @@ function initBacktracking() {
         return;
       }
 
-      // descriere constrangeri aplicate
+      // descriere constrângeri aplicate
       const parts = [];
       if (sumMinRaw || sumMaxRaw) parts.push(`sumă ${constraints.sumMin}–${constraints.sumMax}`);
       if (constraints.evenCount !== null) parts.push(`${constraints.evenCount} pare`);
@@ -911,6 +911,7 @@ const LOTO_API_URL = "https://raw.githubusercontent.com/ionuteuro/loto-6-49/main
 const LOTO_SOURCE_URL =
   "https://www.loto.ro/loto-new/newLotoSiteNexioFinalVersion/web/app2.php/jocuri/649_si_noroc/rezultate_extragere.html";
 const LOTO_REFRESH_MS = 10 * 60 * 1000; // auto-refresh every 10 min
+const LOTO_STALE_MS = 6 * 60 * 60 * 1000; // consider results older than 6h as stale
 
 let liveLastFetched = null;
 
@@ -960,16 +961,28 @@ async function tryJson(url) {
 async function fetchLoto() {
   // 1) results.json served same-origin (GitHub Pages / local server)
   // 2) local Node API
-  // 3) public CORS proxy fallback (client-only)
+  // 3) public CORS proxy fallback (client-only) when data is stale or missing
   const sources = ["results.json", LOTO_API_URL];
+  let fallbackData = null;
   for (const src of sources) {
     try {
-      return await tryJson(src);
+      const d = await tryJson(src);
+      const fetched = d.fetchedAt ? new Date(d.fetchedAt).getTime() : NaN;
+      const age = isNaN(fetched) ? Infinity : Date.now() - fetched;
+      if (age <= LOTO_STALE_MS) return d; // date proaspete
+      fallbackData = d; // pastram ca ultima solutie dacă live-ul esueaza
     } catch (_) {
       /* try next */
     }
   }
-  return fetchLotoFallback();
+  try {
+    const live = await fetchLotoFallback();
+    return { ...live, stale: false };
+  } catch (_) {
+    /* live scrape failed */
+  }
+  if (fallbackData) return { ...fallbackData, stale: true };
+  throw new Error("Nu s-au putut prelua rezultatele");
 }
 
 function timeAgo(iso) {
@@ -1031,7 +1044,7 @@ const STRIPE_OPTIONS = [
 ];
 
 // Deschide un link extern: pe mobil foloseste browser-ul nativ Capacitor
-// (daca e instalat @capacitor/browser), altfel deschide o fereastra noua.
+// (dacă e instalat @capacitor/browser), altfel deschide o fereastra noua.
 function openExternal(url) {
   const cap = window.Capacitor;
   if (cap && cap.Plugins && cap.Plugins.Browser) {
@@ -1067,7 +1080,7 @@ initAnalysisTab();
 initBacktracking();
 initLiveResults();
 initStripeButtons();
-// genereaza o varianta initiala pentru demonstratie
+// generează o variantă initiala pentru demonstratie
 document.getElementById("gen-btn").click();
 
 /* ============================================================

@@ -53,7 +53,7 @@ function chacha20Block(key, counter, nonce) {
   return out; // 16 x u32 = 64 bytes
 }
 
-/* Un generator de numere bazat pe ChaCha20 dintr-un seed (string sau numar) */
+/* Un generator de numere bazat pe ChaCha20 dintr-un seed (string sau număr) */
 function ChaCha20RNG(seed) {
   // deriva key (8 u32) + nonce (3 u32) dintr-un seed printr-un hash simplu (FNV-1a)
   const key = new Uint32Array(8);
@@ -87,7 +87,7 @@ function ChaCha20RNG(seed) {
     return block[idx++];
   }
 
-  // intreg uniform in [0, max) fara bias (rejection sampling)
+  // întreg uniform in [0, max) fara bias (rejection sampling)
   function nextInt(max) {
     const range = 0x100000000; // 2^32
     const limit = range - (range % max);
@@ -114,7 +114,7 @@ function ChaCha20RNG(seed) {
 /* ============================================================
    2) GREEDY - construire sistem redus (covering design)
    ------------------------------------------------------------
-   Dat un set de N numere alese, construieste bilete de cate 6
+   Dat un set de N numere alese, construieste bilete de câte 6
    a.i. orice M-subset al numerelor sa aiba >= K numere intr-un
    bilet (garantie "K din M"). Alege lacom biletul care acopera
    cele mai multe subseturi neacoperite.
@@ -187,7 +187,7 @@ function greedyCover(numbers, M, K) {
   };
 }
 
-/* Verifica o schema (garantie K din M) pentru un set de numere.
+/* Verifică o schema (garantie K din M) pentru un set de numere.
    `precomputedTargets` (optional) = lista de M-subseturi ca indici, pentru viteza. */
 function verifyCover(tickets, numbers, M, K, precomputedTargets) {
   const chosen = numbers.slice().sort((a, b) => a - b);
@@ -212,9 +212,9 @@ function verifyCover(tickets, numbers, M, K, precomputedTargets) {
    ------------------------------------------------------------
    Pornind de la o schema (lista de bilete), incearca sa reduca
    numarul de bilete pastrand garantia "K din M". La fiecare pas
-   incearca sa scoata un bilet; daca garantia se pierde, accepta
+   incearca sa scoata un bilet; dacă garantia se pierde, accepta
    totusi cu probabilitate scazuta (temperatura) pentru a scapa
-   din optime locale, apoi repara daca e nevoie.
+   din optime locale, apoi repara dacă e nevoie.
    Aici il folosim ca optimizator de acoperire: cauta o sub-multime
    minima de bilete care pastreaza garantia.
    ============================================================ */
@@ -231,7 +231,7 @@ function simulatedAnnealing(initialTickets, numbers, M, K, opts = {}) {
   const targets = combIndices(numbers.length, M);
   const isCovered = (tickets) => verifyCover(tickets, numbers, M, K, targets);
 
-  // cost = numar bilete (vrem minim), penalizare mare daca nu e acoperit
+  // cost = număr bilete (vrem minim), penalizare mare dacă nu e acoperit
   function cost(tickets) {
     return tickets.length + (isCovered(tickets) ? 0 : 1000);
   }
@@ -249,7 +249,7 @@ function simulatedAnnealing(initialTickets, numbers, M, K, opts = {}) {
 
     const delta = candCost - currentCost;
     if (delta < 0 || rand() < Math.exp(-delta / Math.max(T, 1e-6))) {
-      // accepta doar daca ramane valid (nu stricam garantia in "best")
+      // accepta doar dacă ramane valid (nu stricam garantia in "best")
       if (isCovered(candidate)) {
         current = candidate;
         currentCost = candCost;

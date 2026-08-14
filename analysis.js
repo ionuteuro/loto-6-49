@@ -9,7 +9,7 @@
 
 /* ---------- Utilitare ---------- */
 
-// Verifica daca un numar este prim
+// Verifică dacă un număr este prim
 function isPrime(n) {
   if (n < 2) return false;
   if (n < 4) return true;
@@ -60,10 +60,10 @@ function frequencyAnalysis(draws) {
 /* ============================================================
    2) LANTURI MARKOV (Markov Chains)
    ------------------------------------------------------------
-   Construieste o matrice de tranzitie: cat de des numarul j
-   apare in extragerea URMATOARE dupa ce numarul i a aparut.
+   Construiește o matrice de tranziție: cat de des numarul j
+   apare in extragerea URMATOARE după ce numarul i a aparut.
    Apoi, pornind de la ultima extragere, scoreaza candidatii
-   dupa probabilitatea de tranzitie agregata.
+   după probabilitatea de tranziție agregata.
    ============================================================ */
 function markovAnalysis(draws) {
   if (draws.length < 2) return null;
@@ -90,7 +90,7 @@ function markovAnalysis(draws) {
     for (const i of last) {
       if (rowTotals[i] > 0) s += trans[i][j] / rowTotals[i];
     }
-    scores[j] = s / last.length; // probabilitate medie de tranzitie
+    scores[j] = s / last.length; // probabilitate medie de tranziție
   }
 
   const ranked = [];
@@ -114,7 +114,7 @@ function markovAnalysis(draws) {
 function kmeansAnalysis(draws, K = 3, maxIter = 50) {
   if (draws.length === 0) return null;
 
-  // trasaturi pentru fiecare numar 1..49
+  // trasaturi pentru fiecare număr 1..49
   const freq = new Array(50).fill(0);
   const lastSeen = new Array(50).fill(-1); // indexul ultimei extrageri
   for (let t = 0; t < draws.length; t++) {
@@ -125,7 +125,7 @@ function kmeansAnalysis(draws, K = 3, maxIter = 50) {
   }
   const totalDraws = draws.length;
 
-  // recenta = cate extrageri au trecut de la ultima aparitie (mic = recent)
+  // recenta = câte extrageri au trecut de la ultima aparitie (mic = recent)
   const points = [];
   for (let n = 1; n <= 49; n++) {
     const recency = lastSeen[n] === -1 ? totalDraws : totalDraws - 1 - lastSeen[n];
@@ -210,7 +210,7 @@ function kmeansAnalysis(draws, K = 3, maxIter = 50) {
 /* ============================================================
    4) FILTRU DE SUMA (Distributia Normala)
    ------------------------------------------------------------
-   Suma celor 6 numere urmeaza aproximativ o distributie normala.
+   Suma celor 6 numere urmeaza aproximativ o distribuție normală.
    Calculam media/abaterea observata + intervalul "tipic" si
    verificăm dacă o combinație propusă cade în acest interval.
    ============================================================ */
@@ -265,7 +265,7 @@ function parityPrimeAnalysis(draws) {
   if (draws.length === 0) return null;
 
   const oddEvenCounts = {}; // ex "3-3" (impare-pare)
-  const primeCounts = {};   // cate prime per extragere
+  const primeCounts = {};   // câte prime per extragere
   let totalOdd = 0, totalEven = 0, totalPrime = 0, totalComposite = 0;
 
   for (const d of draws) {
@@ -345,7 +345,7 @@ function guidedGenerate(draws, opts = {}) {
         guard++;
         set.add(weightedPool[Math.floor(Math.random() * weightedPool.length)]);
       }
-      // completeaza daca a ramas incomplet
+      // completeaza dacă a ramas incomplet
       while (set.size < 6) set.add(1 + Math.floor(Math.random() * 49));
       return [...set].sort((a, b) => a - b);
     }
@@ -373,7 +373,7 @@ function guidedGenerate(draws, opts = {}) {
     }
     return combo;
   }
-  // daca nu gaseste, returneaza ultima incercare relaxata
+  // dacă nu gaseste, returneaza ultima incercare relaxata
   return pickCombo();
 }
 
@@ -381,15 +381,15 @@ function guidedGenerate(draws, opts = {}) {
    "MA SIMT NOROCOS" - combinatie de algoritmi
    ------------------------------------------------------------
    Combina intr-o singura variant:
-     - ChaCha20 (sursa aleatoare criptografica, daca e disponibila)
+     - ChaCha20 (sursa aleatoare criptografica, dacă e disponibila)
      - Filtru de suma (interval tipic ~68%)
      - Raport par/impar frecvent
-     - Ponderare Markov (daca exista istoric)
+     - Ponderare Markov (dacă exista istoric)
    Returneaza o combinatie + o lista de "motive" (ce filtre au fost aplicate).
    ATENTIE: pur divertisment, NU creste sansa reala de castig.
    ============================================================ */
 function luckyGenerate(draws, rng) {
-  // sursa de aleatorism: ChaCha20 daca e dat, altfel Math.random
+  // sursa de aleatorism: ChaCha20 dacă e dat, altfel Math.random
   const randFloat = () => (rng && rng.nextInt ? rng.nextInt(1e9) / 1e9 : Math.random());
   const randInt = (max) => (rng && rng.nextInt ? rng.nextInt(max) : Math.floor(Math.random() * max));
 
@@ -454,7 +454,7 @@ function luckyGenerate(draws, rng) {
     combo = c;
     break;
   }
-  if (!combo) combo = pickCombo(); // relaxat daca nu s-a gasit
+  if (!combo) combo = pickCombo(); // relaxat dacă nu s-a gasit
 
   const s = combo.reduce((a, b) => a + b, 0);
   let odd = 0, primes = 0;
@@ -472,7 +472,7 @@ function luckyGenerate(draws, rng) {
 }
 
 /* ============================================================
-   BACKTRACKING - generare combinatii cu constrangeri
+   BACKTRACKING - generare combinatii cu constrângeri
    ------------------------------------------------------------
 Construiește o combinație 6/49 număr cu număr, verificând la
 fiecare pas dacă poate ÎNCĂ respecta toate constrângerile
@@ -487,7 +487,7 @@ dacă există, sau confirmă că nu există.
      include: [numere],       // numere obligatorii
      exclude: [numere],       // numere interzise
    }
-Optiuni: { limit } = cate solutii sa returneze (default 1),
+Optiuni: { limit } = câte solutii sa returneze (default 1),
              shuffle = ordinea de încercare aleatorie (rng optional)
    ============================================================ */
 function backtrackGenerate(constraints = {}, options = {}) {
@@ -507,7 +507,7 @@ function backtrackGenerate(constraints = {}, options = {}) {
   // validare rapida a datelor de intrare
   const includeSet = new Set(include.filter((n) => n >= 1 && n <= 49));
   const excludeSet = new Set(exclude.filter((n) => n >= 1 && n <= 49));
-  // conflict: acelasi numar inclus si exclus
+  // conflict: acelasi număr inclus si exclus
   for (const n of includeSet) if (excludeSet.has(n)) {
     return { solutions: [], reason: `Numărul ${n} este și inclus și exclus.`, valid: false };
   }
@@ -556,9 +556,9 @@ function backtrackGenerate(constraints = {}, options = {}) {
     for (let i = startIdx; i < candidates.length; i++) {
       const n = candidates[i];
 
-      // --- PODARE (pruning): renunta devreme daca nu mai e posibil ---
+      // --- PODARE (pruning): renunta devreme dacă nu mai e posibil ---
 
-      // 1. daca mai raman prea putine numere ca sa completam 6
+      // 1. dacă mai raman prea putine numere ca sa completam 6
       if (candidates.length - i < remainingSlots) break;
 
       const newSum = sum + n;
@@ -567,8 +567,8 @@ function backtrackGenerate(constraints = {}, options = {}) {
       const newLen = chosen.length + 1;
       const slotsAfter = 6 - newLen;
 
-      // 2. suma: chiar daca adaugam cele mai mici/mari numere ramase, se poate atinge intervalul?
-      //    suma minima posibila daca alegem cele mai mici slotsAfter numere dupa i
+      // 2. suma: chiar dacă adaugam cele mai mici/mari numere ramase, se poate atinge intervalul?
+      //    suma minima posibila dacă alegem cele mai mici slotsAfter numere după i
       let minAdd = 0, maxAdd = 0;
       for (let k = 0; k < slotsAfter; k++) minAdd += (i + 1 + k) <= 48 ? candidates[Math.min(i + 1 + k, candidates.length - 1)] : 0;
       // aproximare simpla: min = urmatoarele slotsAfter numere; max = ultimele slotsAfter
@@ -580,7 +580,7 @@ function backtrackGenerate(constraints = {}, options = {}) {
       if (newSum + maxAdd < sumMin) continue; // prea mic chiar cu maxim
       if (newSum + minAdd > sumMax) break;     // prea mare chiar cu minim (si urmatoarele-s mai mari)
 
-      // 3. numar de pare: nu depasi tinta si asigura-te ca mai e realizabil
+      // 3. număr de pare: nu depasi tinta si asigura-te ca mai e realizabil
       if (evenCount !== null) {
         if (newEvens > evenCount) { /* prea multe pare */ }
         // pare inca necesare vs. sloturi ramase
@@ -589,7 +589,7 @@ function backtrackGenerate(constraints = {}, options = {}) {
         if (evensNeeded > slotsAfter) continue;
       }
 
-      // 4. numar de prime: analog
+      // 4. număr de prime: analog
       if (primeCount !== null) {
         const primesNeeded = primeCount - newPrimes;
         if (primesNeeded < 0) continue;
