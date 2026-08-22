@@ -801,7 +801,13 @@ select:focus { outline: none; }
 .file-btn { text-align: center; display: flex; align-items: center; justify-content: center; }
 
 /* Mini bile pentru analiza */
-.balls.mini { gap: 6px; }
+ .balls.mini { gap: 6px; }
+ .balls.mini.inline { display: inline-flex; vertical-align: middle; gap: 4px; }
+ .balls.mini.inline .ball.mini {
+   width: clamp(22px, 5.5vw, 26px);
+   height: clamp(22px, 5.5vw, 26px);
+   font-size: clamp(10px, 2.6vw, 12px);
+ }
 .ball.mini {
   width: clamp(28px, 7.5vw, 32px);
   height: clamp(28px, 7.5vw, 32px);

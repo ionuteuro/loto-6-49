@@ -595,6 +595,84 @@ function runAllAnalyses() {
   }
 
   analysisOutput.innerHTML = html;
+
+  renderAdvancedAnalyses();
+}
+
+/* ============================================================
+   ANALIZE AVANSATE (algoritmi noi din strategii.js)
+   ============================================================ */
+function renderAdvancedAnalyses() {
+  const out = document.getElementById("adv-analysis-output");
+  if (!out || history.length === 0) return;
+  let html = "";
+
+  // --- Analiza decalajelor (Gap / Poisson) ---
+  const gap = gapAnalysis(history);
+  if (gap) {
+    html += analysisBlock(
+      "Analiza decalajelor (Gap · Poisson)",
+      "Câte extrageri au trecut de la ultima apariție a fiecărui număr și cât de „scadent” pare.",
+      `<p class="an-sub">Numere scadente (de mult absente)</p>${miniBalls(gap.scadente.length ? gap.scadente : gap.topScadente.map((x) => x.n))}
+       <p class="an-meta">Decalaj așteptat: ${gap.expected.toFixed(1)} extrageri · probabilitate la următoarea extragere: constantă (6/49).</p>`
+    );
+  }
+
+  // --- Co-apariție ---
+  const co = cooccurrenceAnalysis(history);
+  if (co) {
+    const pairHtml = co.pairs
+      .map((p) => `<div class="dist-row"><span>${miniBallsInline(p.nums)}</span><span class="dist-pct">${p.count}×</span></div>`)
+      .join("");
+    const tripleHtml = co.triples
+      .map((p) => `<div class="dist-row"><span>${miniBallsInline(p.nums)}</span><span class="dist-pct">${p.count}×</span></div>`)
+      .join("");
+    html += analysisBlock(
+      "Analiza co-apariției",
+      "Perechi și triple care au ieșit împreună cel mai des în istoric.",
+      `<p class="an-sub">Perechi frecvente</p>${pairHtml}
+       <p class="an-sub">Triple frecvente</p>${tripleHtml}`
+    );
+  }
+
+  // --- Semnificație Bootstrap ---
+  const bs = bootstrapSignificance(history);
+  if (bs) {
+    const sigHtml = bs.semnificative.length
+      ? bs.semnificative.map((r) => `<div class="dist-row"><span>${miniBallsInline([r.n])} (observat ${r.observed}, așteptat ${r.expected.toFixed(0)})</span><span class="dist-pct">p=${r.pValue.toFixed(3)}</span></div>`).join("")
+      : '<p class="an-meta">Niciun număr nu este statistic semnificativ diferit de întâmplător.</p>';
+    html += analysisBlock(
+      "Semnificație statistică (Bootstrap)",
+      "Testează dacă numerele „calde/reci” sunt reale sau doar zgomot (corecție Bonferroni).",
+      sigHtml
+    );
+  }
+
+  // --- Entropie / Chi-pătrat ---
+  const en = entropyAnalysis(history);
+  if (en) {
+    html += analysisBlock(
+      "Analiza entropiei (Chi-pătrat)",
+      "Verifică dacă distribuția numerelor este compatibilă cu o sursă uniformă aleatoare.",
+      `<div class="stat-grid">
+         <div><span class="stat-num">${en.chiPatrat.toFixed(1)}</span><span class="stat-lbl">chi-pătrat</span></div>
+         <div><span class="stat-num">${en.pValue.toFixed(3)}</span><span class="stat-lbl">p-value</span></div>
+         <div><span class="stat-num">${(en.entropieNorm * 100).toFixed(1)}%</span><span class="stat-lbl">entropie</span></div>
+       </div>
+       <p class="an-meta">${en.verdict}</p>`
+    );
+  }
+
+  out.innerHTML = html;
+}
+
+// Bilete mici pe o singură linie (fără wrapper div) pentru rânduri compacte
+function miniBallsInline(numbers) {
+  return (
+    '<span class="balls mini inline">' +
+    numbers.map((n) => `<span class="ball mini">${n}</span>`).join("") +
+    "</span>"
+  );
 }
 
 function analysisBlock(title, desc, body) {
@@ -677,6 +755,9 @@ function initAnalysisTab() {
       updateHistStatus();
       refreshAnalysisVisibility();
       analysisOutput.innerHTML = "";
+      document.getElementById("adv-analysis-output").innerHTML = "";
+      document.getElementById("adv-results").innerHTML = "";
+      document.getElementById("mc-results").innerHTML = "";
       document.getElementById("guided-results").innerHTML = "";
       toast("Istoric șters");
     });
@@ -685,7 +766,114 @@ function initAnalysisTab() {
   const guidedBtn = document.getElementById("guided-btn");
   if (guidedBtn) guidedBtn.addEventListener("click", renderGuided);
 
+  initAdvancedGenerator();
+  initMonteCarlo();
   initGreedyAnneal();
+}
+
+/* ============================================================
+   GENERATOR AVANSAT (Sobol/Halton · Genetic · Bayesian)
+   ============================================================ */
+function initAdvancedGenerator() {
+  const btn = document.getElementById("adv-btn");
+  if (!btn) return;
+  btn.addEventListener("click", () => {
+    const method = document.getElementById("adv-method").value;
+    const count = Math.max(1, Math.min(50, parseInt(document.getElementById("adv-count").value) || 5));
+    const out = document.getElementById("adv-results");
+    let res;
+    if (method === "halton") {
+      res = lowDiscrepancyGenerate(count);
+    } else if (method === "genetic") {
+      res = geneticGenerate(history, { count });
+    } else if (method === "bayesian") {
+      res = bayesianGuidedGenerate(history, count);
+    }
+    out.innerHTML = res.tickets
+      .map((t, i) => `<div class="ticket"><span class="ticket-label">Var. ${i + 1}</span>${ballsHtml(t)}</div>`)
+      .join("");
+    toast(`Generate ${res.tickets.length} variante (${res.metoda})`);
+  });
+}
+
+/* ============================================================
+   EVALUATOR MONTE CARLO
+   ============================================================ */
+function initMonteCarlo() {
+  const btn = document.getElementById("mc-btn");
+  if (!btn) return;
+  btn.addEventListener("click", () => {
+    const out = document.getElementById("mc-results");
+    const text = document.getElementById("mc-tickets").value;
+    const sims = Math.max(1000, Math.min(200000, parseInt(document.getElementById("mc-sims").value) || 20000));
+    const tickets = parseDrawsText(text);
+    if (tickets.length === 0) {
+      toast("Lipește biletele (câte unul pe linie)");
+      return;
+    }
+    const res = monteCarloHitRate(tickets, { sims });
+    if (res.error) { out.innerHTML = `<p class="an-meta">${res.error}</p>`; return; }
+    let html = `<div class="card an-card"><h3 class="an-title">Rezultate Monte Carlo</h3>
+      <p class="an-desc">${sims.toLocaleString("ro-RO")} simulări · ${res.numBilete} bilete.</p>`;
+    html += `<p class="an-sub">Șansa ca SISTEMUL să nimerească cel puțin:</p>`;
+    for (let k = 3; k <= 6; k++) {
+      html += `<div class="dist-row"><span>${k} numere</span><span class="dist-pct">${(res.overallProb[k] * 100).toFixed(2)}%</span></div>`;
+    }
+    html += `<p class="an-meta">Număr mediu de bilete care nimeresc ≥3 per extragere: ${res.așteptatePerExtragere.toFixed(3)}</p></div>`;
+    out.innerHTML = html;
+  });
+}
+
+/* ============================================================
+   GENERATOR BAYESIAN GHIDAT
+   ------------------------------------------------------------
+   Generează variante care favorizează numerele cu probabilitate
+   posterioară mare (Beta-Binomial), păstrând suma într-un
+   interval tipic. Nu crește șansa reală de câștig.
+   ============================================================ */
+function bayesianGuidedGenerate(draws, count) {
+  const PROB = 6 / 49; // probabilitate a priori ca un număr să apară într-o extragere
+  const bayes = bayesianProbabilities(draws);
+  const useSum = draws && draws.length >= 5;
+  const sum = useSum ? sumAnalysis(draws) : null;
+  let weightedPool = [];
+  if (bayes) {
+    for (const b of bayes.list) {
+      const weight = 1 + Math.round((b.probabilitate / PROB) * 100);
+      for (let w = 0; w < weight; w++) weightedPool.push(b.n);
+    }
+  }
+  const tickets = [];
+  const seen = new Set();
+  let guard = 0;
+  while (tickets.length < count && guard < count * 500) {
+    guard++;
+    let combo;
+    if (weightedPool.length >= 6) {
+      const set = new Set();
+      let g2 = 0;
+      while (set.size < 6 && g2 < 2000) { set.add(weightedPool[Math.floor(Math.random() * weightedPool.length)]); g2++; }
+      while (set.size < 6) set.add(1 + Math.floor(Math.random() * 49));
+      combo = [...set].sort((a, b) => a - b);
+    } else {
+      const pool = Array.from({ length: 49 }, (_, i) => i + 1);
+      for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
+      combo = pool.slice(0, 6).sort((a, b) => a - b);
+    }
+    if (sum) {
+      const s = combo.reduce((a, b) => a + b, 0);
+      if (s < sum.range68[0] || s > sum.range68[1]) continue;
+    }
+    const key = combo.join(",");
+    if (seen.has(key)) continue;
+    seen.add(key);
+    tickets.push(combo);
+  }
+  return {
+    tickets,
+    metoda: "Bayesian ghidat (probabilități Beta-Binomial + sumă tipică)",
+    note: "Variante ponderate spre numerele cu probabilitate posterioară mare.",
+  };
 }
 
 /* ============================================================

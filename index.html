@@ -311,6 +311,47 @@
         </div>
         <div id="bt-info" class="an-inline-info"></div>
         <div id="bt-results" class="results"></div>
+
+        <p class="group-title">Analiză avansată (algoritmi noi)</p>
+        <div id="adv-analysis-output"></div>
+
+        <p class="group-title">Generator avansat</p>
+        <div class="card">
+          <p class="muted" style="padding:8px 0;">Generează variante folosind
+          algoritmi suplimentari de acoperire și optimizare.</p>
+          <div class="row row-input">
+            <span class="row-label">Metodă</span>
+            <select id="adv-method">
+              <option value="halton">Discrepanță mică (Sobol/Halton)</option>
+              <option value="genetic">Algoritm genetic</option>
+              <option value="bayesian">Bayesian ghidat</option>
+            </select>
+          </div>
+          <div class="row row-input">
+            <span class="row-label">Număr variante</span>
+            <input type="number" id="adv-count" value="5" min="1" max="50" />
+          </div>
+          <div class="btn-stack">
+            <button id="adv-btn" class="btn primary">Generează variante</button>
+          </div>
+        </div>
+        <div id="adv-results" class="results"></div>
+
+        <p class="group-title">Evaluator șanse (Monte Carlo)</p>
+        <div class="card">
+          <p class="muted" style="padding:8px 0;">Estimează, prin simulare,
+          câte numere nimerite vă oferă un sistem de bilete.</p>
+          <textarea id="mc-tickets" class="hist-textarea"
+            placeholder="Lipește biletele, câte unul pe linie:&#10;3 12 24 31 40 45&#10;7 15 22 28 35 44&#10;..."></textarea>
+          <div class="row row-input">
+            <span class="row-label">Simulări</span>
+            <input type="number" id="mc-sims" value="20000" min="1000" max="200000" step="1000" />
+          </div>
+          <div class="btn-stack">
+            <button id="mc-btn" class="btn primary">Estimează șansele</button>
+          </div>
+        </div>
+        <div id="mc-results" class="results"></div>
       </section>
     </main>
 
@@ -322,6 +363,7 @@
   <script src="schemes.js"></script>
   <script src="analysis.js"></script>
   <script src="algorithms.js"></script>
+  <script src="strategii.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
