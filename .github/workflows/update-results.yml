@@ -1,0 +1,30 @@
+name: Update Loto 6/49 results
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"   # la fiecare 15 minute
+  workflow_dispatch:         # buton manual "Run workflow"
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Scrape loto.ro -> results.json
+        run: node api/scrape-to-json.js
+
+      - name: Commit daca s-a schimbat
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add results.json
+          git diff --cached --quiet || git commit -m "update loto results"
+          git push
