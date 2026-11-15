@@ -1,13 +1,13 @@
 {
-  "date": "12.11.2026",
+  "date": "15.11.2026",
   "numbers": [
-    4,
+    37,
+    25,
+    9,
+    3,
     33,
-    20,
-    41,
-    39,
-    3
+    7
   ],
   "source": "https://www.loto.ro/loto-new/newLotoSiteNexioFinalVersion/web/app2.php/jocuri/649_si_noroc/rezultate_extragere.html",
-  "fetchedAt": "2026-11-15T15:20:13.359Z"
+  "fetchedAt": "2026-11-15T20:28:14.399Z"
 }
